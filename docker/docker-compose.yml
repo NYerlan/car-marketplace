@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ../frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules  # Prevent host node_modules from overriding
+    environment:
+      - NODE_ENV=development
+    stdin_open: true  # Required for Vite HMR (Hot Module Replacement)
+
+  backend:
+    build: ../backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend:/app
+    env_file:
+      - ../backend/.env  # For Django settings (SECRET_KEY, DEBUG, etc.)
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: car_marketplace
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
