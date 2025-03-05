@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 import CarCard from './components/CarCard';
 
 const App = () => {
@@ -23,29 +23,14 @@ const App = () => {
     return car.price >= min && car.price <= max;
   });
 
-
   return (
-    
-    <div className="min-h-screen bg-gray-100">
-
-      {/* Navbar and Hero sections */}
+    <div className="min-h-screen bg-white text-gray-900">
+      {/* Navbar */}
       <nav className="bg-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="text-2xl font-bold text-blue-600">AutoTradeHouse</div>
             <div className="flex space-x-4">
-            <div className="py-16 bg-blue-600 text-white">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 className="text-4xl font-bold mb-4">Find Your Dream Car</h1>
-                <div className="max-w-3xl mx-auto">
-                  <input
-                    type="text"
-                    placeholder="Search by brand, model, or keyword"
-                    className="w-full px-4 py-3 rounded-lg text-gray-800"
-                  />
-                </div>
-              </div>
-            </div>
               <button className="px-3 py-2 rounded-md text-gray-600 hover:bg-gray-100">
                 Login
               </button>
@@ -60,33 +45,37 @@ const App = () => {
       {/* Hero Section */}
       <div className="py-16 bg-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search by brand, model, or keyword"
-            className="w-full max-w-3xl px-4 py-3 rounded-lg text-gray-800 mb-4"
-          />
-
-          {/* Price Filter Dropdown */}
-          <select
-            value={selectedPriceRange}
-            onChange={(e) => setSelectedPriceRange(e.target.value)}
-            className="px-4 py-2 rounded-lg text-gray-800"
-          >
-            {priceRanges.map((range) => (
-              <option key={range.value} value={range.value}>
-                {range.label}
-              </option>
-            ))}
-          </select>
+          <h1 className="text-4xl font-bold mb-4">Find Your Dream Car</h1>
+          <div className="max-w-3xl mx-auto">
+            <input
+              type="text"
+              placeholder="Search by brand, model, or keyword"
+              className="w-full px-4 py-3 rounded-lg text-gray-800"
+            />
+          </div>
         </div>
       </div>
-    
+
+      {/* Price Filter Dropdown */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-4">
+        <select
+          value={selectedPriceRange}
+          onChange={(e) => setSelectedPriceRange(e.target.value)}
+          className="px-4 py-2 rounded-lg text-gray-800"
+        >
+          {priceRanges.map((range) => (
+            <option key={range.value} value={range.value}>
+              {range.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {/* Car Listings */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCars.map((car, index) => (
-            <CarCard key={index} {...car} isPromoted={index % 2 === 0} /> // Example: Promote every other car
+            <CarCard key={index} {...car} isPromoted={index % 2 === 0} />
           ))}
         </div>
       </div>
